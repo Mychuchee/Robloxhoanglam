@@ -1,0 +1,35 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "🎄HoangLam | Community", HidePremium = false, SaveConfig = true, ConfigFolder = "🎄HoangLam | Community"})
+
+local PlayerTab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = PlayerTab:AddSection({
+    Name = "Movement"
+})
+
+PlayerTab:AddTextbox({
+	Name = "Speed",
+	Default = "",
+	TextDisappear = false,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
+	end	  
+})
+
+PlayerTab:AddTextbox({
+	Name = "JumpPower",
+	Default = "",
+	TextDisappear = false,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+	end	  
+})
+
+
+
+OrionLib:Init()
