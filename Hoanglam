@@ -1,53 +1,39 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = OrionLib:MakeWindow({Name = "🎄HoangLam | Community", HidePremium = false, SaveConfig = true, ConfigFolder = "🎄HoangLam | Community"})
-
-local PlayerTab = Window:MakeTab({
-	Name = "Player",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local Section = PlayerTab:AddSection({
-    Name = "Movement"
-})
-
-PlayerTab:AddTextbox({
-	Name = "Speed",
-	Default = "",
-	TextDisappear = false,
-	Callback = function(Value)
-		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
-	end	  
-})
-
-PlayerTab:AddTextbox({
-	Name = "JumpPower",
-	Default = "",
-	TextDisappear = false,
-	Callback = function(Value)
-		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-	end	  
+local Window = Fluent:CreateWindow({
+    Title = "x9Sayz × Hub" .. Fluent.Version,
+    SubTitle = "HoangLam * Dummix",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
 
-PlayerTab:AddToggle({
-	Name = "Fask Attack",
-	Default = false,
-	spawn(function(MakoGay)
-    game:GetService("RunService").RenderStepped:Connect(function()
-        if _G.AutoClick or Fastattack then
-             pcall(function()
-                game:GetService'VirtualUser':CaptureController()
-			    game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
+local PlayerTabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local FastAttackToggle = PlayerTabs.Main:AddToggle("FastAttack", {Title = "FastAttack", Default = false })
+    Toggle:spawn(function()
+        while true do
+            if _G.FastAttack then
+            pcall(function()
+            CameraShakerR:Stop()
+            CombatFramework.activeController.attacking = false
+            CombatFramework.activeController.timeToNextAttack = 0
+            CombatFramework.activeController.increment = 3
+            CombatFramework.activeController.hitboxMagnitude = 100
+            CombatFramework.activeController.blocking = false
+            CombatFramework.activeController.timeToNextBlock = 0
+            CombatFramework.activeController.focusStart = 0
+            CombatFramework.activeController.humanoid.AutoRotate = true
             end)
-        end
-    end)
-   end)
-	end    
-})
-
-_G.FastAttackDelay = "0"
-_G.FastAttackDelay = MakoGay
-
-OrionLib:Init()
+            end
+            task.wait()
+            end
+            end)
