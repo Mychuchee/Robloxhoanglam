@@ -1,39 +1,26 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = Fluent:CreateWindow({
-    Title = "x9Sayz × Hub" .. Fluent.Version,
-    SubTitle = "HoangLam * Dummix",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+local Window = OrionLib:MakeWindow({Name = "X2Paluw Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local PlayerTab = Window:MakeTab({
+    Name = "Tab 1",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+
+PlayerTab:AddToggle({
+    Name = "Speed!",
+    Default = false,
+    Callback = function(Value)
+    game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", 4)
+    end
 })
 
+PlayerTab:AddToggle({
+    Name = "Jump!",
+    Default = false,
+    Callback = function(Value)
+        print(Value)
+    end
+})
 
-local PlayerTabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "player" }),
-}
-
-local FastToggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false })
-
-    FastToggle:spawn(function()
-        while true do
-	if _G.FastAttack then
-	pcall(function()
-	CameraShakerR:Stop()
-	CombatFramework.activeController.attacking = false
-	CombatFramework.activeController.timeToNextAttack = 0
-	CombatFramework.activeController.increment = 3
-	CombatFramework.activeController.hitboxMagnitude = 100
-	CombatFramework.activeController.blocking = false
-	CombatFramework.activeController.timeToNextBlock = 0
-	CombatFramework.activeController.focusStart = 0
-	CombatFramework.activeController.humanoid.AutoRotate = true
-	end)
-	end
-	task.wait()
-	end
-	end)
+OrionLib:Init()
