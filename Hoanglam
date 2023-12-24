@@ -4,7 +4,7 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 
 local Window = Fluent:CreateWindow({
     Title = "🎄HoangLam | Community" .. Fluent.Version,
-    SubTitle = "",
+    SubTitle = "by dawid",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -16,17 +16,16 @@ local PlayerTabs = {
     Main = Window:AddTab({ Title = "Player", Icon = "" }),
 }
 
-local MultiDropdown = PlayerTabs.Main:AddDropdown("MultiDropdown", {
+local Dropdown = PlayerTabs.Main:AddDropdown("Dropdown", {
 	Title = "Speed",
-	Description = "",
-	Value = {"1", "2", "3", "4", "5"},
-	Multi = true,
-	Default = {"1"},
-	Callback = function(Value)
-		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
-	end
+	Values = {"1", "2", "3", "4", "5"},
+	Multi = false,
+	Default = 1,
 })
 
+Dropdown:OnChanged(function(Value)
+	game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
+end)
 
 
 SaveManager:LoadAutoloadConfig()
