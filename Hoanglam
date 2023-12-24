@@ -1,35 +1,34 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = OrionLib:MakeWindow({Name = "🎄HoangLam | Community", HidePremium = false, SaveConfig = true, ConfigFolder = "🎄HoangLam | Community"})
-
-local PlayerTab = Window:MakeTab({
-	Name = "Player",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local Window = Fluent:CreateWindow({
+    Title = "🎄HoangLam | Community" .. Fluent.Version,
+    SubTitle = "by dawid",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-local Section = PlayerTab:AddSection({
-    Name = "Movement"
-})
+local PlayerTabs = {
+    Main = Window:AddTab({ Title = "Player", Icon = "" }),
+}
 
-PlayerTab:AddTextbox({
-	Name = "Speed",
-	Default = "",
-	TextDisappear = false,
+local Slider = PlayerTabs.Main:AddSlider("Slider", {
+	Title = "Speedr",
+	Description = "",
+	Default = 2,
+	Min = 0,
+	Max = 5,
+	Rounding = 1,
 	Callback = function(Value)
 		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
-	end	  
+	end
 })
-
-PlayerTab:AddTextbox({
-	Name = "JumpPower",
-	Default = "",
-	TextDisappear = false,
-	Callback = function(Value)
-		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-	end	  
-})
+Slider:SetValue(3)
 
 
 
-OrionLib:Init()
+SaveManager:LoadAutoloadConfig()
