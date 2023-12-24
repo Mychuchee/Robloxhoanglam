@@ -41,7 +41,7 @@ spawn(function()
     end)
    end)
 
-Tab:AddToggle({
+PlayerTab:AddToggle({
 	Name = "Fask Attack",
 	Default = false,
 	Callback = function()
