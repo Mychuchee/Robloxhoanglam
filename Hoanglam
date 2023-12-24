@@ -30,22 +30,11 @@ PlayerTab:AddTextbox({
 	end	  
 })
 
-spawn(function()
-    game:GetService("RunService").RenderStepped:Connect(function()
-        if _G.AutoClick or Fastattack then
-             pcall(function()
-                game:GetService'VirtualUser':CaptureController()
-			    game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
-            end)
-        end
-    end)
-   end)
 
 PlayerTab:AddToggle({
 	Name = "Fask Attack",
 	Default = false,
-	Callback = function()
-		spawn(function()
+	spawn(function(MakoGay)
     game:GetService("RunService").RenderStepped:Connect(function()
         if _G.AutoClick or Fastattack then
              pcall(function()
@@ -58,5 +47,7 @@ PlayerTab:AddToggle({
 	end    
 })
 
+_G.FastAttackDelay = "0"
+_G.FastAttackDelay = MakoGay
 
 OrionLib:Init()
