@@ -16,7 +16,7 @@ local PlayerTabs = {
     Main = Window:AddTab({ Title = "Player", Icon = "" }),
 }
 
-local MultiDropdown = PlaTabs.Main:AddDropdown("MultiDropdown", {
+local MultiDropdown = PlayerTabs.Main:AddDropdown("MultiDropdown", {
 	Title = "Speed",
 	Description = "",
 	Value = {"1", "2", "3", "4", "5"},
