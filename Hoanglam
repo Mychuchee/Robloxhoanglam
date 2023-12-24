@@ -1,23 +1,14 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = Fluent:CreateWindow({
-    Title = "x9Sayz × Hub" .. Fluent.Version,
-    SubTitle = "HoangLam * Dummix",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+local Window = OrionLib:MakeWindow({Name = "MEmaybeo Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "Skibidi"})
+
+local PlayerTab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
 })
 
-
-local PlayerTabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "player" }),
-}
-
-local ToggleFastAttack = PlayerTabs.Setting:AddToggle("ToggleFastAttack", {Title = "Fast Attack", Default = true })
+local ToggleFastAttack = Tabs.Setting:AddToggle("ToggleFastAttack", {Title = "Fast Attack", Default = true })
     ToggleFastAttack:OnChanged(function(vu)
         FastAttack = vu
     end)
@@ -54,3 +45,6 @@ _G.FastAttackDelay = 0.1
             end)
         end
     end)
+
+
+OrionLib:Init()
