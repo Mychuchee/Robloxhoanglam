@@ -1,31 +1,37 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = Fluent:CreateWindow({
-    Title = "🎄HoangLam | Community" .. Fluent.Version,
-    SubTitle = "by dawid",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+local Window = OrionLib:MakeWindow({Name = "🎄HoangLam | Community", HidePremium = false, SaveConfig = true, ConfigFolder = "🎄HoangLam | Community"})
+
+local PlayerTab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
 })
 
-local PlayerTabs = {
-    Main = Window:AddTab({ Title = "Player", Icon = "" }),
-}
-
-local Dropdown = PlayerTabs.Main:AddDropdown("Dropdown", {
-	Title = "Speed",
-	Values = {"1", "2", "3", "4", "5"},
-	Multi = false,
-	Default = 1,
+local Section = PlayerTab:AddSection({
+    Name = "Movement"
 })
 
-Dropdown:OnChanged(function(Value)
-	game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
-end)
+Tab:AddDropdown({
+	Name = "Dropdown",
+	Default = "1",
+	Options = {"1", "2", "3", "4", "5"},
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
+	end    
+})
+
+Tab:AddDropdown({
+	Name = "Dropdown",
+	Default = "50",
+	Options = {"50", "80", "100", "150", "200"},
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+	end    
+})
 
 
-SaveManager:LoadAutoloadConfig()
+
+
+
+OrionLib:Init()
