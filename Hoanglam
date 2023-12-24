@@ -17,44 +17,23 @@ local PlayerTabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "player" }),
 }
 
-local AttackList = {"Slow", "Normal", "Pro"}
-_G.FastAttackDelay = "Normal"
-AttackList = true
-spawn(function()
-    while wait(.1) do
-        if _G.FastAttackDelay then
-            pcall(function()
-                if _G.FastAttackDelay == "Slow" then
-                    _G.FastAttackDelay = 0.2
-                elseif _G.FastAttackDelay == "Default" then
-                    _G.FastAttackDelay = 0.5
-                elseif _G.FastAttackDelay == "Normal" then
-                    _G.FastAttackDelay = 0.2
-                elseif _G.FastAttackDelay == "Pro" then
-                    _G.FastAttackDelay = 0
-                end
-            end)
-        end
-    end
-end)
+local FastToggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false })
 
-
-
-spawn(function()
-while true do
-if _G.FastAttack then
-pcall(function()
-CameraShakerR:Stop()
-CombatFramework.activeController.attacking = false
-CombatFramework.activeController.timeToNextAttack = 0
-CombatFramework.activeController.increment = 3
-CombatFramework.activeController.hitboxMagnitude = 100
-CombatFramework.activeController.blocking = false
-CombatFramework.activeController.timeToNextBlock = 0
-CombatFramework.activeController.focusStart = 0
-CombatFramework.activeController.humanoid.AutoRotate = true
-end)
-end
-task.wait()
-end
-end)
+    FastToggle:spawn(function()
+        while true do
+	if _G.FastAttack then
+	pcall(function()
+	CameraShakerR:Stop()
+	CombatFramework.activeController.attacking = false
+	CombatFramework.activeController.timeToNextAttack = 0
+	CombatFramework.activeController.increment = 3
+	CombatFramework.activeController.hitboxMagnitude = 100
+	CombatFramework.activeController.blocking = false
+	CombatFramework.activeController.timeToNextBlock = 0
+	CombatFramework.activeController.focusStart = 0
+	CombatFramework.activeController.humanoid.AutoRotate = true
+	end)
+	end
+	task.wait()
+	end
+	end)
