@@ -1,26 +1,56 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = OrionLib:MakeWindow({Name = "X2Paluw Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
-
-local PlayerTab = Window:MakeTab({
-    Name = "Tab 1",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-
-PlayerTab:AddToggle({
-    Name = "Speed!",
-    Default = false,
-    Callback = function(Value)
-    game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", 4)
-    end
+local Window = Fluent:CreateWindow({
+    Title = "x9Sayz × Hub" .. Fluent.Version,
+    SubTitle = "HoangLam * Dummix",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-PlayerTab:AddToggle({
-    Name = "Jump!",
-    Default = false,
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 300
-    end
-})
 
-OrionLib:Init()
+local PlayerTabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "player" }),
+}
+
+local ToggleFastAttack = PlayerTabs.Setting:AddToggle("ToggleFastAttack", {Title = "Fast Attack", Default = true })
+    ToggleFastAttack:OnChanged(function(vu)
+        FastAttack = vu
+    end)
+    Options.ToggleFastAttack:SetValue(true)
+
+
+
+
+_G.FastAttackDelay = 0.1
+
+    local Client = game.Players.LocalPlayer
+    local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
+    local STOPRL = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
+    spawn(function()
+        while task.wait() do
+            pcall(function()
+                if not shared.orl then shared.orl = STOPRL.wrapAttackAnimationAsync end
+                if not shared.cpc then shared.cpc = STOP.play end
+                    STOPRL.wrapAttackAnimationAsync = function(a,b,c,d,func)
+                    local Hits = STOPRL.getBladeHits(b,c,d)
+                    if Hits then
+                        if FastAttack then
+                            STOP.play = function() end
+                            a:Play(0.01,0.01,0.01)
+                            func(Hits)
+                            STOP.play = shared.cpc
+                            wait(a.length * 0.5)
+                            a:Stop()
+                        else
+                            a:Play()
+                        end
+                    end
+                end
+            end)
+        end
+    end)
