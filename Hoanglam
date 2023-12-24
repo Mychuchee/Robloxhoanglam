@@ -19,7 +19,7 @@ PlayerTab:AddToggle({
     Name = "Jump!",
     Default = false,
     Callback = function(Value)
-        print(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 300
     end
 })
 
