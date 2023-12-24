@@ -1,45 +1,59 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Main = require(game:GetService("ReplicatedStorage"):WaitForChild("Fluent"))
 
-local Window = OrionLib:MakeWindow({Name = "🎄HoangLam | Community", HidePremium = false, SaveConfig = true, ConfigFolder = "🎄HoangLam | Community"})
-
-local PlayerTab = Window:MakeTab({
-	Name = "Player",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local Window = Main:CreateWindow({
+    Title = "HoangLam Hub" .. Main.Version,
+    SubTitle = "by HoangLam & Skibidi",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark"
 })
 
-local Section = PlayerTab:AddSection({
-    Name = "Movement"
+local PlayerTabs = {
+    Main = Window:AddTab({ Title = "Player", Icon = "box" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Slider = PlayerTabs.Main:AddSlider("Slider", {
+    Title = "Speed",
+    Description = "",
+    Default = 1,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
+    end
 })
 
-PlayerTab:AddDropdown({
-	Name = "Dropdown",
-	Default = "1",
-	Options = {"1", "2", "3", "4", "5"},
-	Callback = function(Value)
-		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
-	end    
+local Slider = PlayerTabs.Main:AddSlider("Slider", {
+    Title = "Jump Power",
+    Description = "",
+    Default = 50,
+    Min = 50,
+    Max = 300,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
 })
 
-PlayerTab:AddDropdown({
-	Name = "Dropdown",
-	Default = "50",
-	Options = {"50", "80", "100", "150", "200"},
-	Callback = function(Value)
-		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-	end    
-})
-
-
-PlayerTab:AddButton({
-	Name = "Fixlag",
-	Callback = function()
+Tabs.Main:AddButton({
+    Title = "Fixlag",
+    Description = "",
+    function intiAppleHub() 
+    G.antiscan = true
+    getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync
+    getgenv().B = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play
+    _G.setfflag = true
+    end
+    spawn(function()
         while wait() do
             if _G.setfflag then
                 setfflag("AbuseReportScreenshot", "False")
                 setfflag("AbuseReportScreenshotPercentage", "0")
-  	end    
+            end
+        end
+    end)
+end
 })
-
-
-OrionLib:Init()
