@@ -14,11 +14,10 @@ local Window = Fluent:CreateWindow({
 
 
 local PlayerTabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+    Main = Window:AddTab({ Title = "Main", Icon = "player" }),
 }
 
-llocal AttackList = {"Slow", "Normal", "Pro"}
+local AttackList = {"Slow", "Normal", "Pro"}
 _G.FastAttackDelay = "Normal"
 AttackList = true
 spawn(function()
