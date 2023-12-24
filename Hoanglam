@@ -1,62 +1,82 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = Main:CreateWindow({
-    Title = "HoangLam Hub" .. Main.Version,
-    SubTitle = "by HoangLam & Skibidi",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true,
-    Theme = "Dark"
+local Window = OrionLib:MakeWindow({Name = "🎄HoangLam | Community", HidePremium = false, SaveConfig = true, ConfigFolder = "🎄HoangLam | Community"})
+
+local PlayerTab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
 })
 
-local PlayerTabs = {
-    Main = Window:AddTab({ Title = "Player", Icon = "box" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
-}
-
-local Slider = PlayerTabs.Main:AddSlider("Slider", {
-    Title = "Speed",
-    Description = "",
-    Default = 1,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
-    end
+local Section = PlayerTab:AddSection({
+    Name = "Movement"
 })
 
-local Slider = PlayerTabs.Main:AddSlider("Slider", {
-    Title = "Jump Power",
-    Description = "",
-    Default = 50,
-    Min = 50,
-    Max = 300,
-    Rounding = 1,
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-    end
+PlayerTab:AddTextbox({
+	Name = "Speed",
+	Default = "",
+	TextDisappear = false,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character:SetAttribute("SpeedMultiplier", Value)
+	end	  
 })
 
-PlayerTabs.Main:AddButton({
-    Title = "Button",
-    Description = "Very important button",
-    function intiAppleHub() 
-        _G.antiscan = true
-        getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync
-        getgenv().B = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play
-        _G.setfflag = true
+PlayerTab:AddTextbox({
+	Name = "JumpPower",
+	Default = "",
+	TextDisappear = false,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+	end	  
+})
+
+spawn(function()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if _G.AutoClick or Fastattack then
+             pcall(function()
+                game:GetService'VirtualUser':CaptureController()
+			    game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
+            end)
         end
-        spawn(function()
-            while wait() do
-                if _G.setfflag then
-                    setfflag("AbuseReportScreenshot", "False")
-                    setfflag("AbuseReportScreenshotPercentage", "0")
-                end
-            end
-        end)
-})
+    end)
+   end)
 
-SaveManager:LoadAutoloadConfig()
+local AttackList = {"0", "0.1", "0.15", "0.155", "0.16", "0.165", "0.17", "0.175", "0.18", "0.185"}
+_G.FastAttackDelay = "0.175"
+Main:AddDropdown("Táº¥n cÃ´ng nhanh Delay", AttackList,function(MakoGay)
+    _G.FastAttackDelay = MakoGay
+end)
+spawn(function()
+    while wait(.1) do
+        if _G.FastAttackDelay then
+            pcall(function()
+                if _G.FastAttackDelay == "0" then
+                    _G.FastAttackDelay = 0
+                elseif _G.FastAttackDelay == "0.1" then
+                    _G.FastAttackDelay = 0.1
+                elseif _G.FastAttackDelay == "0.15" then
+                    _G.FastAttackDelay = 0.15
+                elseif _G.FastAttackDelay == "0.155" then
+                    _G.FastAttackDelay = 0.155
+                elseif _G.FastAttackDelay == "0.16" then
+                    _G.FastAttackDelay = 0.16
+                elseif _G.FastAttackDelay == "0.165" then
+                    _G.FastAttackDelay = 0.165
+                elseif _G.FastAttackDelay == "0.17" then
+                    _G.FastAttackDelay = 0.17
+                elseif _G.FastAttackDelay == "0.175" then
+                    _G.FastAttackDelay = 0.175
+                elseif _G.FastAttackDelay == "0.18" then
+                    _G.FastAttackDelay = 0.18
+                elseif _G.FastAttackDelay == "0.185" then
+                    _G.FastAttackDelay = 0.185
+                elseif _G.FastAttackDelay == "0.09" then
+                    _G.FastAttackDelay = 0.09
+                end
+            end)
+        end
+    end
+end)
+
+
+OrionLib:Init()
