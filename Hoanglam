@@ -8,7 +8,7 @@ local PlayerTab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local ToggleFastAttack = Tabs.Setting:AddToggle("ToggleFastAttack", {Title = "Fast Attack", Default = true })
+local ToggleFastAttack = PlayerTabs.Setting:AddToggle("ToggleFastAttack", {Title = "Fast Attack", Default = true })
     ToggleFastAttack:OnChanged(function(vu)
         FastAttack = vu
     end)
