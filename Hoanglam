@@ -8,43 +8,45 @@ local PlayerTab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local ToggleFastAttack = PlayerTabs.Setting:AddToggle("ToggleFastAttack", {Title = "Fast Attack", Default = true })
-    ToggleFastAttack:OnChanged(function(vu)
-        FastAttack = vu
-    end)
-    Options.ToggleFastAttack:SetValue(true)
 
 
+-- Assuming you have Orion Library integrated
+local Orion = require(game.ReplicatedStorage.Orion)
 
 
-_G.FastAttackDelay = 0.1
+-- Add a Checkbox Toggle to the PlayerTab
+local slowAttackToggle = playerTab:Checkbox("Slow Attack", function(value)
+    _G.FastAttack = value -- Update your global variable
 
-    local Client = game.Players.LocalPlayer
-    local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
-    local STOPRL = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
-    spawn(function()
-        while task.wait() do
+    if value then
+        Attack1Function()
+    end
+
+    if _G.FastAttack then
+        -- Execute your existing code
+        local xShadowFastAttackx = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+        local xShadowx = debug.getupvalues(xShadowFastAttackx)[2]
+
+        if typeof(xShadowx) == "table" then
             pcall(function()
-                if not shared.orl then shared.orl = STOPRL.wrapAttackAnimationAsync end
-                if not shared.cpc then shared.cpc = STOP.play end
-                    STOPRL.wrapAttackAnimationAsync = function(a,b,c,d,func)
-                    local Hits = STOPRL.getBladeHits(b,c,d)
-                    if Hits then
-                        if FastAttack then
-                            STOP.play = function() end
-                            a:Play(0.01,0.01,0.01)
-                            func(Hits)
-                            STOP.play = shared.cpc
-                            wait(a.length * 0.5)
-                            a:Stop()
-                        else
-                            a:Play()
-                        end
-                    end
-                end
+                xShadowx.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+                xShadowx.activeController.timeToNextAttack = 0
+                xShadowx.activeController.hitboxMagnitude = 200
+                xShadowx.activeController.active = false
+                xShadowx.activeController.timeToNextBlock = 0
+                xShadowx.activeController.focusStart = 0
+                xShadowx.activeController.increment = 4
+                xShadowx.activeController.blocking = false
+                xShadowx.activeController.attacking = false
+                xShadowx.activeController.humanoid.AutoRotate = 50
             end)
         end
-    end)
+    end
+end)
+
+-- Optionally, set default state of the toggle
+slowAttackToggle:SetState(false)  -- Set to true if you want it to be initially checked
+
 
 
 OrionLib:Init()
