@@ -10,12 +10,11 @@ local PlayerTab = Window:MakeTab({
 
 
 
--- Assuming you have Orion Library integrated
-local Orion = require(game.ReplicatedStorage.Orion)
+
 
 
 -- Add a Checkbox Toggle to the PlayerTab
-local slowAttackToggle = playerTab:Checkbox("Slow Attack", function(value)
+local slowAttackToggle = PlayerTab:AddToggle("Slow Attack", function(value)
     _G.FastAttack = value -- Update your global variable
 
     if value then
@@ -45,7 +44,7 @@ local slowAttackToggle = playerTab:Checkbox("Slow Attack", function(value)
 end)
 
 -- Optionally, set default state of the toggle
-slowAttackToggle:SetState(false)  -- Set to true if you want it to be initially checked
+
 
 
 
